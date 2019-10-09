@@ -1,5 +1,6 @@
 package com.leticija.treeapp.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,16 +13,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.leticija.treeapp.R;
+import com.leticija.treeapp.net.Requester;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText passcodeField;
     TextView message;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = getApplicationContext();
+
+        //SETTANJE URL-a
+        Requester.setUrl(context);
 
         passcodeField = findViewById(R.id.passcode_editText);
         message = findViewById(R.id.passcode_message);

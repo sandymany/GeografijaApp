@@ -15,13 +15,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class Requester {
 
     static String response;
     private static String baseUrl;
 
     public static void setUrl(Context context) {
-        baseUrl = context.getString(R.string.base_address);
+        baseUrl = "https://posadistablo.000webhostapp.com";
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -30,6 +32,7 @@ public class Requester {
 
             String url = baseUrl + endpoint;
             //open connection
+            System.out.println("URL TO REQUEST: "+url);
             URL urlToOpen = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) urlToOpen.openConnection();
 
