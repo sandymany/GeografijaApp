@@ -1,5 +1,7 @@
 <resources>
-    <string name="textView_provjera">Provjera ključa</string>
+    <string name="textView_provjera">Provjera lozinke</string>
     <string name="base_address">https://posadistablo.000webhostapp.com</string>
     <string name="app_title">Posadi drvo</string>
+    <string name="passcode">1234</string>
+    <string name="ok_button_text">OK</string>
 </resources>
