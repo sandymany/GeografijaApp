@@ -33,6 +33,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void run() {
 
+                /*
                 headers = new HashMap<>();
                 String features = "{\"type\":\"Feature\",\"properties\":{\"vrsta\":\"breza\",\"datum\":\"9.10.2019.\",\"posadio\":\"4.d\",\"image_url\":\"https://cdn.shopify.com/s/files/1/0014/4038/3023/files/japense-maple-specialist_2048x.jpg?v=1544794246\"},\"geometry\":{\"type\":\"Point\",\"coordinates\":[20,30]}}";
 
@@ -43,16 +44,17 @@ public class HomeActivity extends AppCompatActivity {
 
                 stringForHeaders = stringForHeaders+encodedString;
 
-                //headers.put("feature",encodedString);
-                //headers.put("passcode","1234");
-                //headers.put("Accept", "application/json");
-                //headers.put("Content-Type", "multipart/form-data");
-
+                //headers.put("img",imgbase64encoded);
 
                 String secondResponse = Requester.request("/api/add.php",headers,stringForHeaders);
                 System.out.println("secondResponse: "+secondResponse);
 
+*/
+                headers = new HashMap<>();
+                String secondResponse = Requester.request("/api/delete.php",headers,"passcode=1234&id=4");
+
                 response = Requester.request("/api/get.php",new HashMap<String, String>(),null);
+
 
             }
 
