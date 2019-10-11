@@ -1,12 +1,25 @@
 package com.leticija.treeapp;
 
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.TextView;
 
 public class Effects {
+
+    public static void alterTextView (TextView textView, boolean visibility, String text, int color) {
+        textView.setText(text);
+        if (visibility) {
+            textView.setVisibility(View.VISIBLE);
+        }
+        else {
+            textView.setVisibility(View.INVISIBLE);
+        }
+        textView.setTextColor(ContextCompat.getColor(textView.getContext(),color));
+    }
 
     public static void setRotateAnimation(View view) {
         RotateAnimation rotateAnimation = new RotateAnimation(0, 1440, Animation.RELATIVE_TO_SELF,

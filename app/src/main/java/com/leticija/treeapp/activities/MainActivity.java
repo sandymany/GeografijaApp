@@ -1,7 +1,9 @@
 package com.leticija.treeapp.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.leticija.treeapp.Effects;
 import com.leticija.treeapp.R;
 import com.leticija.treeapp.net.Requester;
 
@@ -56,13 +59,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     private void goToNewActivity () {
         if (passcodeField.getText().toString().equals(getString(R.string.passcode))) {
+            Effects.alterTextView(message, true,"LOZINKA ISPRAVNA",R.color.success);
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);
         }
         else {
-            message.setText("Kriva lozinka");
+            message.setText("POGREŠNA LOZINKA");
             message.setVisibility(View.VISIBLE);
         }
     }
