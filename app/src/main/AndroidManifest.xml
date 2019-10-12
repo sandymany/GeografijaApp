@@ -7,7 +7,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/tree_icon"
-        android:label="Posadi drvo"
+        android:label="Posadi stablo"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -20,6 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.HomeActivity"/>
+        <activity android:name=".activities.AddTreeActivity"/>
+        <activity android:name=".activities.CollectionActivity"/>
 
 
     </application>

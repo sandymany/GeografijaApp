@@ -8,7 +8,7 @@ public class Tree {
 
     String features = "";
 
-    public void setFeatures (String type, String vrsta, String datum, String posadio, JSONArray coordinates) throws JSONException {
+    public void setFeatures (String vrsta, String datum, String posadio, JSONArray coordinates) throws JSONException {
 
         //features:{"type":"Feature","properties":{"vrsta":x,"datum":x,"posadio":x,"image_url":""},"geometry":{"type":"Point","coordinates":[x,y]}}
 

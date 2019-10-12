@@ -38,7 +38,7 @@
             android:gravity="center"
             android:text="Novo stablo"
             android:textSize="15dp"
-            android:textColor="@color/black"
+            android:textColor="@color/krem"
             android:layout_marginBottom="2dp"/>
     </LinearLayout>
 
@@ -73,7 +73,7 @@
             android:gravity="center"
             android:text="Pregled kolekcije"
             android:textSize="15dp"
-            android:textColor="@color/black"
+            android:textColor="@color/krem"
             android:layout_marginBottom="2dp"/>
     </LinearLayout>
 

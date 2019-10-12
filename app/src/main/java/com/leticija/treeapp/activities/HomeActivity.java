@@ -1,6 +1,7 @@
 package com.leticija.treeapp.activities;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -52,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
 
 */
                 headers = new HashMap<>();
-                String secondResponse = Requester.request("/api/delete.php",headers,"passcode=1234&id=4");
+                //String secondResponse = Requester.request("/api/delete.php",headers,"passcode=1234&id=4");
 
                 response = Requester.request("/api/get.php",new HashMap<String, String>(),null);
 
@@ -63,16 +64,24 @@ public class HomeActivity extends AppCompatActivity {
         addTreeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //new activity
+
+                Intent intent = new Intent(HomeActivity.this,AddTreeActivity.class);
+                startActivity(intent);
+
             }
         });
 
         viewCollectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //collection map view
+                Intent intent = new Intent(HomeActivity.this,CollectionActivity.class);
+                startActivity(intent);
             }
         });
 
+    }
+    @Override
+    public void onBackPressed() {
+        return;
     }
 }
