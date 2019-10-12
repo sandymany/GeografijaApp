@@ -1,6 +1,8 @@
 package com.leticija.treeapp.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import com.leticija.treeapp.R;
 
 public class AddTreeActivity  extends AppCompatActivity {
 
+    Context context;
     Button button;
     TextView textView;
     int PLACE_PICKER_REQUEST=1;
@@ -27,13 +30,20 @@ public class AddTreeActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_tree_activity);
 
+        context = getApplicationContext();
+
         button = findViewById(R.id.bt_picker);
         textView = findViewById(R.id.text_view);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                WifiManager wifiManager = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                wifiManager.setWifiEnabled(false);
+
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                wifiManager.setWifiEnabled(true);
                 try {
                     startActivityForResult(builder.build(AddTreeActivity.this),PLACE_PICKER_REQUEST);
                 } catch (GooglePlayServicesRepairableException e) {
