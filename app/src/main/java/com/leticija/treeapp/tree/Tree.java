@@ -1,14 +1,24 @@
 package com.leticija.treeapp.tree;
 
+import android.graphics.Bitmap;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.util.Base64;
+
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+
 public class Tree {
 
-    String features = "";
+    public static String features = ""; //encoded string with features
+    public static String encodedImage = ""; //encoded bitmap
 
-    public void setFeatures (String vrsta, String datum, String posadio, JSONArray coordinates) throws JSONException {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static void setFeatures (String vrsta, String datum, String posadio, JSONArray coordinates) throws JSONException {
 
         //features:{"type":"Feature","properties":{"vrsta":x,"datum":x,"posadio":x,"image_url":""},"geometry":{"type":"Point","coordinates":[x,y]}}
 
@@ -29,11 +39,29 @@ public class Tree {
 
         treeObject.put("geometry",geometryObject);
 
-        String objectString = treeObject.toString();
-        features = objectString;
-        }
+        String featuresString = treeObject.toString();
+
+        byte[] bytesEncoded = java.util.Base64.getEncoder().encode(featuresString.getBytes());
+        String encodedString = new String(bytesEncoded);
+
+        features = encodedString;
+    }
+
+    public static void setEncodedImage (Bitmap bitmap) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+        byte[] b = baos.toByteArray();
+
+        encodedImage = Base64.encodeToString(b,Base64.DEFAULT);
+
+    }
 
     public String getFeatures() {
         return features;
+    }
+
+    public String getEncodedImage (){
+        return encodedImage;
     }
 }

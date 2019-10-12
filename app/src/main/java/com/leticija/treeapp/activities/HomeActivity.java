@@ -11,7 +11,6 @@ import android.widget.Button;
 import com.leticija.treeapp.R;
 import com.leticija.treeapp.net.Requester;
 import com.leticija.treeapp.net.TaskQueue;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
