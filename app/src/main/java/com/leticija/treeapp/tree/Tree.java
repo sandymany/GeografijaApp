@@ -14,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 
 public class Tree {
 
+    public static Bitmap imageBitmap;
     public static String features = ""; //encoded string with features
     public static String encodedImage = ""; //encoded bitmap
 

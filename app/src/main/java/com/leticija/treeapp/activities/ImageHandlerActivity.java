@@ -39,19 +39,30 @@ public class ImageHandlerActivity extends AppCompatActivity {
     String mCurrentPhotoPath;
     private ImageView imageView;
     Context context;
+    Button okButton;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image_picker_activity);
 
         context = getApplicationContext();
+
+        //FIND WHAT YOU NEED
         imageView = findViewById(R.id.picked_image);
         Button pickImageButton = findViewById(R.id.pickImage_button);
+        okButton = findViewById(R.id.button_ok);
 
         pickImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectImage(ImageHandlerActivity.this);
+            }
+        });
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 
@@ -80,7 +91,7 @@ public class ImageHandlerActivity extends AppCompatActivity {
                     }
 
                     if (photoFile != null) {
-                        Uri photoURI = FileProvider.getUriForFile(ImageHandlerActivity.this, "com.leticija.bugy.fileprovider",photoFile);
+                        Uri photoURI = FileProvider.getUriForFile(ImageHandlerActivity.this, "com.leticija.treeapp.fileprovider",photoFile);
                         System.out.println("URI FOR PHOTO: "+photoURI);
                         takePicture.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                         startActivityForResult(takePicture, 0);
@@ -125,6 +136,7 @@ public class ImageHandlerActivity extends AppCompatActivity {
                             imageView.setRotation(90);
 
                             if (bitmap != null) {
+                                AddTreeActivity.imageView.setImageBitmap(bitmap);
                                 imageView.setImageBitmap(bitmap);
                             }
 
@@ -159,6 +171,7 @@ public class ImageHandlerActivity extends AppCompatActivity {
                                 options.inPreferredConfig = Bitmap.Config.ARGB_8888;
                                 Bitmap bitmap = BitmapFactory.decodeFile(picturePath, options);
 
+                                AddTreeActivity.imageView.setImageBitmap(bitmap);
                                 imageView.setImageBitmap(bitmap);
                                 cursor.close();
 
