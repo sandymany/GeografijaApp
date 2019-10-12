@@ -5,12 +5,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
-
+import android.view.View;
+import android.widget.Button;
 import com.leticija.treeapp.R;
 import com.leticija.treeapp.net.Requester;
 import com.leticija.treeapp.net.TaskQueue;
-
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +24,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
-        final TextView textView = findViewById(R.id.text_home);
+        //FIND WHAT YOU NEED
+        Button addTreeButton = findViewById(R.id.button_newTree);
+        Button viewCollectionButton = findViewById(R.id.button_viewCollection);
 
         TaskQueue.prepare().backgroundTask(new Runnable() {
             @TargetApi(Build.VERSION_CODES.O)
@@ -55,15 +56,23 @@ public class HomeActivity extends AppCompatActivity {
 
                 response = Requester.request("/api/get.php",new HashMap<String, String>(),null);
 
-
             }
 
-        }).guiTask(new Runnable() {
-            @Override
-            public void run() {
-                 textView.setText("RESPONSE JSON:\n"+response);
-            }
         }).subscribeMe();
+
+        addTreeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //new activity
+            }
+        });
+
+        viewCollectionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //collection map view
+            }
+        });
 
     }
 }
