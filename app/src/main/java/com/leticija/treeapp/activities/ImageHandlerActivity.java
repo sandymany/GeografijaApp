@@ -96,10 +96,6 @@ public class ImageHandlerActivity extends AppCompatActivity {
                         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(galleryIntent,1);
                     }
-                    /*
-                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(pickPhoto , 1);
-                    */
 
                 } else if (options[item].equals("Odustani")) {
                     dialog.dismiss();
