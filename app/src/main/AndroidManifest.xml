@@ -3,7 +3,10 @@
     package="com.leticija.treeapp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/tree_icon"
@@ -11,6 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCnnHy7I6_wN6tRtS1emfzYy_k2301hbZc"/>
 
         <activity android:name=".activities.MainActivity">
             <intent-filter>
@@ -22,7 +28,6 @@
         <activity android:name=".activities.HomeActivity"/>
         <activity android:name=".activities.AddTreeActivity"/>
         <activity android:name=".activities.CollectionActivity"/>
-
 
     </application>
 
