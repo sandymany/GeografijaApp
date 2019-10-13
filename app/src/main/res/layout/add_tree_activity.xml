@@ -79,6 +79,7 @@
                     android:layout_marginLeft="3dp"
                     android:layout_marginStart="3dp"
                     android:backgroundTint="@color/black"
+                    android:gravity="center"
                     android:textCursorDrawable="@color/black"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -135,6 +136,7 @@
                     android:layout_marginLeft="3dp"
                     android:layout_marginStart="3dp"
                     android:backgroundTint="@color/black"
+                    android:gravity="center"
                     android:textCursorDrawable="@color/black"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -161,6 +163,7 @@
                     android:layout_marginLeft="3dp"
                     android:layout_marginStart="3dp"
                     android:backgroundTint="@color/black"
+                    android:gravity="center"
                     android:textCursorDrawable="@color/black"
                     android:layout_height="wrap_content" />
             </LinearLayout>

@@ -1,11 +1,13 @@
 package com.leticija.treeapp;
 
+import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 public class Effects {
@@ -65,5 +67,13 @@ public class Effects {
         });
 
         view.startAnimation(fadeOut);
+    }
+
+    public static void showKeyboard (View view,boolean bool, Context context) {
+
+        if (bool == false) {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+        }
     }
 }

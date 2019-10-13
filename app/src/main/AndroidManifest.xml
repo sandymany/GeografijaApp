@@ -30,7 +30,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.HomeActivity"/>
-        <activity android:name=".activities.AddTreeActivity"/>
+        <activity android:name=".activities.AddTreeActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activities.CollectionActivity"/>
         <activity android:name=".activities.ImageHandlerActivity"/>
 

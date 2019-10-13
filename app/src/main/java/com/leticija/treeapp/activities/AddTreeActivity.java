@@ -2,6 +2,9 @@ package com.leticija.treeapp.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.leticija.treeapp.Effects;
 import com.leticija.treeapp.R;
 import com.leticija.treeapp.tree.Tree;
 import org.json.JSONArray;
@@ -36,6 +40,7 @@ public class AddTreeActivity  extends AppCompatActivity {
     Button gotovoButton;
     Button umetniSlikuButton;
     public static ImageView imageView;
+    EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +55,29 @@ public class AddTreeActivity  extends AppCompatActivity {
         gotovoButton = findViewById(R.id.gotovo_button);
         placePickerButton = findViewById(R.id.bt_picker);
         coordinatesTextView = findViewById(R.id.text_view);
+        editText = findViewById(R.id.posadio_editText);
 
         umetniSlikuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddTreeActivity.this,ImageHandlerActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //imageView.setRotation(90);
+                Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+
+                Matrix matrix = new Matrix();
+                matrix.postRotate(90);
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+
+                imageView.setImageBitmap(rotatedBitmap);
+
             }
         });
 
@@ -73,6 +95,7 @@ public class AddTreeActivity  extends AppCompatActivity {
                 try {
                     Tree.setFeatures(vrsta,datum,posadio,koordinate);
                     Tree.setEncodedImage(Tree.imageBitmap);
+                    imageView.setImageBitmap(Tree.imageBitmap);
                 } catch (JSONException e) {
                     System.out.println("EXCEPTION IN SETTING FEATURES !");
                     e.printStackTrace();

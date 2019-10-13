@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -133,15 +134,21 @@ public class ImageHandlerActivity extends AppCompatActivity {
                             imageView.setImageBitmap(bitmap);
 
                             System.out.println("HEIGHT: "+imageView.getHeight()+" WIDTH: "+imageView.getHeight());
-                            imageView.setRotation(90);
+                            //imageView.setRotation(90);
+
+                            Matrix matrix = new Matrix();
+                            matrix.postRotate(90);
+                            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+                            Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
 
                             if (bitmap != null) {
-                                AddTreeActivity.imageView.setImageBitmap(bitmap);
-                                imageView.setImageBitmap(bitmap);
+                                AddTreeActivity.imageView.setImageBitmap(rotatedBitmap);
+                                imageView.setImageBitmap(rotatedBitmap);
                             }
 
                             // POSTAVITI SLIKU KOJA BUDE KASNIJE POSLANA NA SERVER (sve je static da bi kasnije iz drugog activityja mogla lako pristupati stvarima)
-                            Tree.setEncodedImage(bitmap);
+                            //Tree.setEncodedImage(bitmap);
+                            Tree.imageBitmap = bitmap;
 
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -179,7 +186,8 @@ public class ImageHandlerActivity extends AppCompatActivity {
                                 bmpList.add(bitmap);
 
                                 //ISTO
-                                Tree.setEncodedImage(bitmap);
+                                //Tree.setEncodedImage(bitmap);
+                                Tree.imageBitmap = bitmap;
                             }
                         }
 
