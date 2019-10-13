@@ -22,6 +22,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.leticija.treeapp.Effects;
 import com.leticija.treeapp.R;
+import com.leticija.treeapp.net.TaskQueue;
 import com.leticija.treeapp.tree.Tree;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +41,9 @@ public class AddTreeActivity  extends AppCompatActivity {
     Button gotovoButton;
     Button umetniSlikuButton;
     public static ImageView imageView;
-    EditText editText;
+    Button rotateButton;
+    Bitmap rotatedBitmap;
+    ImageView loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +53,13 @@ public class AddTreeActivity  extends AppCompatActivity {
         context = getApplicationContext();
 
         //FIND WHAT YOU NEED
+        loading = findViewById(R.id.imageView_loading);
         imageView = findViewById(R.id.image_add_tree);
         umetniSlikuButton = findViewById(R.id.umetniSliku_button);
         gotovoButton = findViewById(R.id.gotovo_button);
         placePickerButton = findViewById(R.id.bt_picker);
         coordinatesTextView = findViewById(R.id.text_view);
-        editText = findViewById(R.id.posadio_editText);
+        rotateButton = findViewById(R.id.rotate_button);
 
         umetniSlikuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,19 +69,30 @@ public class AddTreeActivity  extends AppCompatActivity {
             }
         });
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+        rotateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //imageView.setRotation(90);
-                Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                loading.setVisibility(View.VISIBLE);
+                Effects.setRotateAnimation(loading);
 
-                Matrix matrix = new Matrix();
-                matrix.postRotate(90);
-                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
-                Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+                TaskQueue.prepare().backgroundTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                        Matrix matrix = new Matrix();
+                        matrix.postRotate(90);
+                        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+                        rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+                    }
+                }).guiTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        imageView.setImageBitmap(rotatedBitmap);
+                        loading.clearAnimation();
+                        loading.setVisibility(View.INVISIBLE);
 
-                imageView.setImageBitmap(rotatedBitmap);
-
+                    }
+                }).subscribeMe();
             }
         });
 

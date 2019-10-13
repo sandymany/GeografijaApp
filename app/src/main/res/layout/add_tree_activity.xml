@@ -6,8 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/partiallyTransparentBrown">
+    android:background="@color/partiallyTransparentBrown"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +22,21 @@
         android:text="DODAVANJE STABLA"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:textStyle="bold"/>
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:textStyle="bold"
+        android:gravity="center"/>
+        <ImageView
+            android:id="@+id/imageView_loading"
+            android:visibility="invisible"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/loading"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -37,14 +58,28 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/umetniSliku_button"
-                android:layout_width="100dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="5dp"
-                android:text="UMETNI SLIKU"
-                android:background="@color/colorPrimaryDark"/>
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/umetniSliku_button"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="UMETNI SLIKU"
+                    android:background="@color/colorPrimaryDark"/>
+
+                <Button
+                    android:id="@+id/rotate_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/rotate"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+
             <ImageView
                 android:id="@+id/image_add_tree"
                 android:layout_width="wrap_content"

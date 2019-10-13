@@ -136,14 +136,9 @@ public class ImageHandlerActivity extends AppCompatActivity {
                             System.out.println("HEIGHT: "+imageView.getHeight()+" WIDTH: "+imageView.getHeight());
                             //imageView.setRotation(90);
 
-                            Matrix matrix = new Matrix();
-                            matrix.postRotate(90);
-                            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
-                            Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
-
                             if (bitmap != null) {
-                                AddTreeActivity.imageView.setImageBitmap(rotatedBitmap);
-                                imageView.setImageBitmap(rotatedBitmap);
+                                AddTreeActivity.imageView.setImageBitmap(bitmap);
+                                imageView.setImageBitmap(bitmap);
                             }
 
                             // POSTAVITI SLIKU KOJA BUDE KASNIJE POSLANA NA SERVER (sve je static da bi kasnije iz drugog activityja mogla lako pristupati stvarima)

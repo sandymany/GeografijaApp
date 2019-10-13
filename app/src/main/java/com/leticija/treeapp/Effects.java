@@ -26,7 +26,7 @@ public class Effects {
     public static void setRotateAnimation(View view) {
         RotateAnimation rotateAnimation = new RotateAnimation(0, 1440, Animation.RELATIVE_TO_SELF,
                 .5f, Animation.RELATIVE_TO_SELF, .5f);
-        rotateAnimation.setDuration(8000);
+        rotateAnimation.setDuration(5000);
         System.out.println("START: " + rotateAnimation.getStartOffset());
         rotateAnimation.setRepeatCount(Animation.INFINITE);
         view.startAnimation(rotateAnimation);
