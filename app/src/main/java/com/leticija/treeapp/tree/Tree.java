@@ -17,11 +17,12 @@ public class Tree {
     public static Bitmap imageBitmap;
     public static String features = ""; //encoded string with features
     public static String encodedImage = ""; //encoded bitmap
+    public static String featuresUnencoded = "";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void setFeatures (String vrsta, String datum, String posadio, JSONArray coordinates) throws JSONException {
 
-        //features:{"type":"Feature","properties":{"vrsta":x,"datum":x,"posadio":x,"image_url":""},"geometry":{"type":"Point","coordinates":[x,y]}}
+        //{"type":"Feature","properties":{"vrsta":x,"datum":x,"posadio":x,"image_url":""},"geometry":{"type":"Point","coordinates":[x,y]}}
 
         JSONObject treeObject = new JSONObject();
 
@@ -30,7 +31,7 @@ public class Tree {
         propertiesObject.put("vrsta",vrsta);
         propertiesObject.put("datum",datum);
         propertiesObject.put("posadio",posadio);
-        propertiesObject.put("image_url","");
+        propertiesObject.put("image_url","none");
 
         treeObject.put("properties",propertiesObject);
 
@@ -41,6 +42,9 @@ public class Tree {
         treeObject.put("geometry",geometryObject);
 
         String featuresString = treeObject.toString();
+
+        featuresUnencoded = featuresString;
+        System.out.println(featuresUnencoded);
 
         byte[] bytesEncoded = java.util.Base64.getEncoder().encode(featuresString.getBytes());
         String encodedString = new String(bytesEncoded);
@@ -65,4 +69,5 @@ public class Tree {
     public String getEncodedImage (){
         return encodedImage;
     }
+
 }

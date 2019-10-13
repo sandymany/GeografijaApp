@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
@@ -21,15 +22,17 @@ public class DialogCreator extends AppCompatDialogFragment {
     final String negativeButton;
     Runnable r1 = null;
     Runnable r2 = null;
+    int color;
 
     @SuppressLint("ValidFragment")
-    DialogCreator(String title, String message,String positiveButton,String negativeButton, Runnable r1,Runnable r2) {
+    DialogCreator(int color,String title, String message, String positiveButton, String negativeButton, Runnable r1, Runnable r2) {
         this.title = title;
         this.message = message;
         this.positiveButton = positiveButton;
         this.negativeButton = negativeButton;
         this.r1 = r1;
         this.r2 = r2;
+        this.color = color;
     }
 
     @Override
@@ -40,6 +43,7 @@ public class DialogCreator extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.template_dialogue,null);
 
         TextView titleText = view.findViewById(R.id.dialogue_title);
+        titleText.setTextColor(color);
         titleText.setText(title);
         TextView messageText = view.findViewById(R.id.dialogue_message);
         messageText.setText(message);
@@ -60,6 +64,5 @@ public class DialogCreator extends AppCompatDialogFragment {
                     }
                 });
         return builder.create();
-
     }
 }

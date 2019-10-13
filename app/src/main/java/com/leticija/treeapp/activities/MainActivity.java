@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             message.setText("POGREŠNA LOZINKA");
-            message.setVisibility(View.VISIBLE);
+            Effects.fadeIn(message,500);
         }
     }
 }

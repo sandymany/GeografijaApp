@@ -15,27 +15,40 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="DODAVANJE STABLA"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:textStyle="bold"
-        android:gravity="center"/>
-        <ImageView
-            android:id="@+id/imageView_loading"
-            android:visibility="invisible"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
+
+        <Button
+            android:id="@+id/backButton"
             android:layout_marginTop="4dp"
-            android:src="@drawable/loading"
-            android:layout_alignParentRight="true"/>
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/arrow_back"/>
+
+        <TextView
+            android:layout_width="314dp"
+            android:layout_height="28dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toStartOf="@+id/imageView_loading"
+            android:layout_toLeftOf="@+id/imageView_loading"
+            android:layout_toEndOf="@+id/backButton"
+            android:layout_toRightOf="@+id/backButton"
+            android:gravity="center"
+            android:text="DODAVANJE STABLA"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imageView_loading"
+                android:visibility="invisible"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/loading"
+                android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
     <View

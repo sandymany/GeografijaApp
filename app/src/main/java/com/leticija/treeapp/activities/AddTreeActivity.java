@@ -23,6 +23,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.leticija.treeapp.Effects;
 import com.leticija.treeapp.R;
+import com.leticija.treeapp.Trees;
 import com.leticija.treeapp.net.TaskQueue;
 import com.leticija.treeapp.tree.Tree;
 import org.json.JSONArray;
@@ -65,6 +66,7 @@ public class AddTreeActivity  extends AppCompatActivity {
         rotateButton = findViewById(R.id.rotate_button);
 
         Tree.imageBitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        koordinate = new JSONArray();
 
         umetniSlikuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,11 +126,15 @@ public class AddTreeActivity  extends AppCompatActivity {
                             //SETTANJE FEATURA I ENCODANE SLIKE
                             Tree.setFeatures(vrsta,datum,posadio,koordinate);
                             Tree.setEncodedImage(Tree.imageBitmap);
+
+                            Trees.checkAllFields(fragmentManager,context);
+
                         } catch (JSONException e) {
                             System.out.println("EXCEPTION IN SETTING FEATURES !");
                             e.printStackTrace();
                         }
 
+                        //Trees.sendNewTreeToServer(context);
                         //slanje na server
                         //prije toga provjera jel sve ispunjeno !
                         System.out.println("SENDING DATA TO SERVER !!!");

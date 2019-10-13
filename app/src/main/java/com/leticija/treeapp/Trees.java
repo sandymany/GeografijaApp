@@ -1,7 +1,9 @@
 package com.leticija.treeapp;
 
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
 
 import com.leticija.treeapp.net.Requester;
 import com.leticija.treeapp.tree.Tree;
@@ -11,6 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Trees {
 
@@ -33,7 +37,45 @@ public class Trees {
 
     }
 
-    public static void addTree (Tree tree) {
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static void sendNewTreeToServer (Context context) {
+
+        Map<String,String> headersToSend = new HashMap<>();
+        headersToSend.put("img",Tree.encodedImage);
+
+        String bodyToSend = "passcode="+context.getString(R.string.passcode)+"&feature=";
+        bodyToSend+= Tree.features;
+
+        Requester.request("/api/add.php",headersToSend,bodyToSend);
+
+    }
+
+    public static void checkAllFields (FragmentManager fragmentManager,Context context) throws JSONException {
+
+        boolean showDialog = false;
+
+        JSONObject featuresObject = new JSONObject(Tree.featuresUnencoded);
+        JSONObject propertiesObject = (JSONObject) featuresObject.get("properties");
+        JSONObject geometryObject = (JSONObject) featuresObject.get("geometry");
+        JSONArray coordinatesArray = (JSONArray) geometryObject.get("coordinates");
+
+        Iterator<String> keys = propertiesObject.keys();
+        while(keys.hasNext()) {
+            String key = keys.next();
+            if (propertiesObject.get(key).equals("") || propertiesObject.get(key)==null) {
+                showDialog = true;
+            }
+        }
+
+        if (coordinatesArray.length() == 0) {
+            showDialog = true;
+        }
+
+        if (showDialog == true) {
+            Effects.showEmptyFieldsDialog(context,fragmentManager);
+        }
+
+
 
     }
 

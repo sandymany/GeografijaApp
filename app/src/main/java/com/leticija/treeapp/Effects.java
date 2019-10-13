@@ -83,6 +83,8 @@ public class Effects {
 
     public static void succesfullySentDialog (final Context context, FragmentManager fragmentManager) {
 
+        int color = context.getResources().getColor(R.color.success);
+
         Runnable  none = new Runnable() {
             @Override
             public void run() {
@@ -97,8 +99,31 @@ public class Effects {
             }
         };
 
-        DialogCreator dialogCreator = new DialogCreator("Poslano","Podaci uspješno poslani na server !","OK","",none,okRunnable);
+        DialogCreator dialogCreator = new DialogCreator(color,"Poslano","Podaci uspješno poslani na server !","OK","",none,okRunnable);
         dialogCreator.show(fragmentManager,"successfully sent dialog");
+
+    }
+
+    public static void showEmptyFieldsDialog (final Context context,FragmentManager fragmentManager) {
+
+        int color = context.getResources().getColor(R.color.red);
+
+        Runnable  none = new Runnable() {
+            @Override
+            public void run() {
+                return;
+            }
+        };
+
+        Runnable okRunnable = new Runnable() {
+            @Override
+            public void run() {
+                return;
+            }
+        };
+
+        DialogCreator dialogCreator = new DialogCreator(color,"Pozor","Neka polja su prazna.\nMolimo ispunite sve.","OK","",none,okRunnable);
+        dialogCreator.show(fragmentManager,"prazna polja upozorenje");
 
     }
 }
