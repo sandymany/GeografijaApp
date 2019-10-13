@@ -1,6 +1,9 @@
 package com.leticija.treeapp;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -9,6 +12,8 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+
+import com.leticija.treeapp.DialogCreator;
 
 public class Effects {
 
@@ -27,7 +32,6 @@ public class Effects {
         RotateAnimation rotateAnimation = new RotateAnimation(0, 1440, Animation.RELATIVE_TO_SELF,
                 .5f, Animation.RELATIVE_TO_SELF, .5f);
         rotateAnimation.setDuration(5000);
-        System.out.println("START: " + rotateAnimation.getStartOffset());
         rotateAnimation.setRepeatCount(Animation.INFINITE);
         view.startAnimation(rotateAnimation);
     }
@@ -75,5 +79,26 @@ public class Effects {
             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(),0);
         }
+    }
+
+    public static void succesfullySentDialog (final Context context, FragmentManager fragmentManager) {
+
+        Runnable  none = new Runnable() {
+            @Override
+            public void run() {
+                return;
+            }
+        };
+
+        Runnable okRunnable = new Runnable() {
+            @Override
+            public void run() {
+                return;
+            }
+        };
+
+        DialogCreator dialogCreator = new DialogCreator("Poslano","Podaci uspješno poslani na server !","OK","",none,okRunnable);
+        dialogCreator.show(fragmentManager,"successfully sent dialog");
+
     }
 }

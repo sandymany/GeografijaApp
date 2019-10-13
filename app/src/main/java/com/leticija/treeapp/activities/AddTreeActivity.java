@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +45,7 @@ public class AddTreeActivity  extends AppCompatActivity {
     Button rotateButton;
     Bitmap rotatedBitmap;
     ImageView loading;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class AddTreeActivity  extends AppCompatActivity {
         setContentView(R.layout.add_tree_activity);
 
         context = getApplicationContext();
+        fragmentManager = getSupportFragmentManager();
 
         //FIND WHAT YOU NEED
         loading = findViewById(R.id.imageView_loading);
@@ -60,6 +63,8 @@ public class AddTreeActivity  extends AppCompatActivity {
         placePickerButton = findViewById(R.id.bt_picker);
         coordinatesTextView = findViewById(R.id.text_view);
         rotateButton = findViewById(R.id.rotate_button);
+
+        Tree.imageBitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
 
         umetniSlikuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +88,7 @@ public class AddTreeActivity  extends AppCompatActivity {
                         matrix.postRotate(90);
                         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
                         rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+                        Tree.imageBitmap = rotatedBitmap;
                     }
                 }).guiTask(new Runnable() {
                     @Override
@@ -100,25 +106,41 @@ public class AddTreeActivity  extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                EditText posadioEdit = findViewById(R.id.posadio_editText);
-                posadio = posadioEdit.getText().toString();
-                EditText datumEdit = findViewById(R.id.datum_editText);
-                datum = datumEdit.getText().toString();
-                EditText vrstaEdit = findViewById(R.id.vrstaStabla_editText);
-                vrsta = vrstaEdit.getText().toString();
 
-                try {
-                    Tree.setFeatures(vrsta,datum,posadio,koordinate);
-                    Tree.setEncodedImage(Tree.imageBitmap);
-                    imageView.setImageBitmap(Tree.imageBitmap);
-                } catch (JSONException e) {
-                    System.out.println("EXCEPTION IN SETTING FEATURES !");
-                    e.printStackTrace();
-                }
+                loading.setVisibility(View.VISIBLE);
+                Effects.setRotateAnimation(loading);
 
-                //slanje na server
-                //prije toga provjera jel sve ispunjeno !
-                System.out.println("SENDING DATA TO SERVER !!!");
+                TaskQueue.prepare().backgroundTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        EditText posadioEdit = findViewById(R.id.posadio_editText);
+                        posadio = posadioEdit.getText().toString();
+                        EditText datumEdit = findViewById(R.id.datum_editText);
+                        datum = datumEdit.getText().toString();
+                        EditText vrstaEdit = findViewById(R.id.vrstaStabla_editText);
+                        vrsta = vrstaEdit.getText().toString();
+
+                        try {
+                            //SETTANJE FEATURA I ENCODANE SLIKE
+                            Tree.setFeatures(vrsta,datum,posadio,koordinate);
+                            Tree.setEncodedImage(Tree.imageBitmap);
+                        } catch (JSONException e) {
+                            System.out.println("EXCEPTION IN SETTING FEATURES !");
+                            e.printStackTrace();
+                        }
+
+                        //slanje na server
+                        //prije toga provjera jel sve ispunjeno !
+                        System.out.println("SENDING DATA TO SERVER !!!");
+                    }
+                }).guiTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        loading.clearAnimation();
+                        loading.setVisibility(View.INVISIBLE);
+                        Effects.succesfullySentDialog(context,fragmentManager);
+                    }
+                }).subscribeMe();
             }
         });
 
