@@ -11,6 +11,8 @@ import android.widget.Button;
 import com.leticija.treeapp.R;
 import com.leticija.treeapp.net.Requester;
 import com.leticija.treeapp.net.TaskQueue;
+
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,10 +53,11 @@ public class HomeActivity extends AppCompatActivity {
                 System.out.println("secondResponse: "+secondResponse);
 
 */
-                headers = new HashMap<>();
+                //headers = new HashMap<>();
                 //String secondResponse = Requester.request("/api/delete.php",headers,"passcode=1234&id=4");
 
                 response = Requester.request("/api/get.php",new HashMap<String, String>(),null);
+                System.out.println(response);
 
             }
 

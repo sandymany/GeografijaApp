@@ -134,9 +134,7 @@ public class AddTreeActivity  extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        //Trees.sendNewTreeToServer(context);
-                        //slanje na server
-                        //prije toga provjera jel sve ispunjeno !
+                        Trees.sendNewTreeToServer();
                         System.out.println("SENDING DATA TO SERVER !!!");
                     }
                 }).guiTask(new Runnable() {
@@ -185,8 +183,8 @@ public class AddTreeActivity  extends AppCompatActivity {
                 stringBuilder.append(longitude);
 
                 koordinate = new JSONArray();
-                koordinate.put(latitude);
                 koordinate.put(longitude);
+                koordinate.put(latitude);
 
                 coordinatesTextView.setText(stringBuilder.toString());
 

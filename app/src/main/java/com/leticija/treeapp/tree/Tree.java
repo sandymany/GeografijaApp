@@ -58,7 +58,7 @@ public class Tree {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
         byte[] b = baos.toByteArray();
 
-        encodedImage = Base64.encodeToString(b,Base64.DEFAULT);
+        encodedImage = Base64.encodeToString(b,Base64.NO_WRAP);
 
     }
 
