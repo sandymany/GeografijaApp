@@ -115,7 +115,7 @@ public class AddTreeActivity  extends AppCompatActivity {
                 String longitude = String.valueOf(place.getLatLng().longitude);
                 stringBuilder.append("G.Š: ");
                 stringBuilder.append(latitude);
-                stringBuilder.append(" G.D: ");
+                stringBuilder.append("\nG.D: ");
                 stringBuilder.append(longitude);
 
                 koordinate = new JSONArray();
