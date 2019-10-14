@@ -145,7 +145,7 @@ public class Effects {
             }
         };
 
-        DialogCreator dialogCreator = new DialogCreator(color,"Pozor","Dogodila se greška pri slanju.\nMolimo pokušajte ponovno.","OK","",none,okRunnable);
+        DialogCreator dialogCreator = new DialogCreator(color,"Pozor","Dogodila se greška pri slanju.\nMolimo provjerite konekciju i pokušajte ponovno.","OK","",none,okRunnable);
         dialogCreator.show(fragmentManager,"prazna polja upozorenje");
 
     }
