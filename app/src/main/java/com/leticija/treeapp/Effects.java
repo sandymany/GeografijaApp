@@ -5,15 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.leticija.treeapp.DialogCreator;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Effects {
 
@@ -148,5 +154,65 @@ public class Effects {
         DialogCreator dialogCreator = new DialogCreator(color,"Pozor","Dogodila se greška pri slanju.\nMolimo provjerite konekciju i pokušajte ponovno.","OK","",none,okRunnable);
         dialogCreator.show(fragmentManager,"prazna polja upozorenje");
 
+    }
+
+    public static void loadAllTreesToScrollview(final JSONObject objectFromRequest, LinearLayout scrollLayout,Context context) throws JSONException {
+
+        JSONArray arrayOfTreesData = (JSONArray) objectFromRequest.get("features");
+
+        for (int i = 0; i<arrayOfTreesData.length(); i++) {
+
+            JSONObject treeObject = (JSONObject) arrayOfTreesData.get(i);
+            String contentTextString="";
+
+            System.out.println(treeObject.toString());
+
+            try {
+
+                if (treeObject.has("properties")) {
+                    JSONObject treeProperties = (JSONObject) treeObject.get("properties");
+                    String vrsta = (String) treeProperties.get("vrsta");
+                    contentTextString = "Vrsta: " + vrsta;
+                    String posadio = (String) treeProperties.get("posadio");
+                    contentTextString += "\nPosadio: " + posadio;
+                    String datum = (String) treeProperties.get("datum");
+                    contentTextString += "\nDatum: " + datum;
+
+                }
+                if (treeObject.has("geometry")) {
+                    JSONObject geometryObject = (JSONObject) treeObject.get("geometry");
+                    String koordinate = geometryObject.get("coordinates").toString();
+                    contentTextString += "\nKoordinate[G.D.,G.Š.]: " + koordinate;
+                }
+
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+                LinearLayout templateLayout = (LinearLayout) inflater.inflate(R.layout.template_tree_collection, null);
+
+
+                TextView subtitle = templateLayout.findViewById(R.id.collection_subtitle);
+                subtitle.setText("STABLO " + String.valueOf(i + 1) + ".");
+                TextView contentText = templateLayout.findViewById(R.id.content_text);
+                contentText.setText(contentTextString);
+
+                scrollLayout.addView(templateLayout);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public static String cleanHiddenCharacters(String text)
+    {
+        // strips off all non-ASCII characters
+        text = text.replaceAll("[^\\x00-\\x7F]", "");
+
+        // erases all the ASCII control characters
+        text = text.replaceAll("[\\p{Cntrl}&&[^\r\n\t]]", "");
+
+        // removes non-printable characters from Unicode
+        text = text.replaceAll("\\p{C}", "");
+
+        return text.trim();
     }
 }

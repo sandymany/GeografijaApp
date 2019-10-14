@@ -204,9 +204,13 @@ public class AddTreeActivity  extends AppCompatActivity {
                 stringBuilder.append(longitude);
 
                 koordinate = new JSONArray();
-                koordinate.put(longitude);
-                koordinate.put(latitude);
-
+                try {
+                    koordinate.put(place.getLatLng().longitude);
+                    koordinate.put(place.getLatLng().latitude);
+                } catch (JSONException e) {
+                    System.out.println("SOME EXCEPTION IN COORDINATE JSONARRAY SETTING !");
+                    e.printStackTrace();
+                }
                 coordinatesTextView.setText(stringBuilder.toString());
 
             }

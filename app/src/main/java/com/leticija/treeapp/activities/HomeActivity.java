@@ -38,19 +38,6 @@ public class HomeActivity extends AppCompatActivity {
         Button addTreeButton = findViewById(R.id.button_newTree);
         Button viewCollectionButton = findViewById(R.id.button_viewCollection);
 
-        TaskQueue.prepare().backgroundTask(new Runnable() {
-            @TargetApi(Build.VERSION_CODES.O)
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void run() {
-
-                response = Requester.request("/api/get.php",new HashMap<String, String>(),null,context,fragmentManager);
-                System.out.println(response);
-
-            }
-
-        }).subscribeMe();
-
         addTreeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
