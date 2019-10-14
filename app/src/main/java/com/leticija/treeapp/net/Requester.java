@@ -3,6 +3,8 @@ package com.leticija.treeapp.net;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+
+import com.leticija.treeapp.Effects;
 import com.leticija.treeapp.R;
 
 import java.io.DataOutputStream;

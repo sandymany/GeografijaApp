@@ -73,6 +73,21 @@ public class AddTreeActivity  extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AddTreeActivity.this,ImageHandlerActivity.class);
                 startActivity(intent);
+                TaskQueue.prepare().backgroundTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).guiTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        umetniSlikuButton.setText("PROMIJENI SLIKU");
+                    }
+                }).subscribeMe();
             }
         });
 
@@ -134,7 +149,13 @@ public class AddTreeActivity  extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        Trees.sendNewTreeToServer();
+                        //dodati ako su polja prazna da nejde na slanje!
+
+                        try {
+                            Trees.sendNewTreeToServer();
+                        } catch (Exception e) {
+                            Effects.showServerErrorDialog(context,fragmentManager);
+                        }
                         System.out.println("SENDING DATA TO SERVER !!!");
                     }
                 }).guiTask(new Runnable() {

@@ -5,9 +5,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/partiallyTransparentBrown">
 
+
+    <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/pickImage_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NAPOMENA: sliku možete rotirati tamo gdje upisujete ostale podatke"/>
     <Button
         android:id="@+id/pickImage_button"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,8 +31,14 @@
 
     <ImageView
         android:id="@+id/picked_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="65dp"
+        android:layout_marginRight="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pickImage_button"

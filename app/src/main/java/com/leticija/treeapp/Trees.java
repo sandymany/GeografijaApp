@@ -44,37 +44,14 @@ public class Trees {
         Map<String,String> headersToSend = new HashMap<>();
         //headersToSend.put("img",Tree.encodedImage);
 
-        //String features = "{\"type\":\"Feature\",\"properties\":{\"vrsta\":\"breza\",\"datum\":\"9.10.2019.\",\"posadio\":\"4.d\",\"image_url\":\"\"},\"geometry\":{\"type\":\"Point\",\"coordinates\":[20,30]}}";
-
         String bodyToSend = "passcode=1234&feature=";
         bodyToSend+=Tree.features;
 
         Requester.request("/api/add.php",headersToSend,bodyToSend);
 
-
-        /*
-        Map<String,String> headers = new HashMap<>();
-        String features = "{\"type\":\"Feature\",\"properties\":{\"vrsta\":\"breza\",\"datum\":\"9.10.2019.\",\"posadio\":\"4.d\",\"image_url\":\"https://cdn.shopify.com/s/files/1/0014/4038/3023/files/japense-maple-specialist_2048x.jpg?v=1544794246\"},\"geometry\":{\"type\":\"Point\",\"coordinates\":[1,1]}}";
-
-        String stringForHeaders = "passcode=1234&feature=";
-
-        byte[] bytesEncoded = Base64.getEncoder().encode(features.getBytes());
-        String encodedString = new String(bytesEncoded);
-
-        stringForHeaders = stringForHeaders+encodedString;
-
-        headers.put("img",Tree.encodedImage);
-
-        String secondResponse = Requester.request("/api/add.php",headers,stringForHeaders);
-        System.out.println("secondResponse: "+secondResponse);
-*/
-
-        //headers = new HashMap<>();
-        //String secondResponse = Requester.request("/api/delete.php",headers,"passcode=1234&id=4");
-
     }
 
-    public static void checkAllFields (FragmentManager fragmentManager,Context context) throws JSONException {
+    public static boolean checkAllFields (FragmentManager fragmentManager,Context context) throws JSONException {
 
         boolean showDialog = false;
 
@@ -97,10 +74,9 @@ public class Trees {
 
         if (showDialog == true) {
             Effects.showEmptyFieldsDialog(context,fragmentManager);
+            return false;
         }
-
-
-
+        return true;
     }
 
 

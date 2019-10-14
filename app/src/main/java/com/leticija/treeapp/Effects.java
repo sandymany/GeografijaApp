@@ -126,4 +126,27 @@ public class Effects {
         dialogCreator.show(fragmentManager,"prazna polja upozorenje");
 
     }
+
+    public static void showServerErrorDialog (final Context context,FragmentManager fragmentManager) {
+
+        int color = context.getResources().getColor(R.color.red);
+
+        Runnable  none = new Runnable() {
+            @Override
+            public void run() {
+                return;
+            }
+        };
+
+        Runnable okRunnable = new Runnable() {
+            @Override
+            public void run() {
+                return;
+            }
+        };
+
+        DialogCreator dialogCreator = new DialogCreator(color,"Pozor","Dogodila se greška pri slanju.\nMolimo pokušajte ponovno.","OK","",none,okRunnable);
+        dialogCreator.show(fragmentManager,"prazna polja upozorenje");
+
+    }
 }
