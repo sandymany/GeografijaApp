@@ -3,6 +3,7 @@ package com.leticija.treeapp.net;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
 
 import com.leticija.treeapp.Effects;
 import com.leticija.treeapp.R;
@@ -29,7 +30,7 @@ public class Requester {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static String request(String endpoint, final Map<String,String> headerToSend, final String bodyToSend) {
+    public static String request(String endpoint, final Map<String,String> headerToSend, final String bodyToSend, Context context, FragmentManager fragmentManager) {
         try {
 
             String url = baseUrl + endpoint;
@@ -60,6 +61,7 @@ public class Requester {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+        Effects.showServerErrorDialog(context,fragmentManager);
         System.out.println("SOME EXCEPTIOOn OCCCURED !!!!!");
         return null;
     }

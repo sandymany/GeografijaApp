@@ -19,11 +19,11 @@ import java.util.Map;
 public class Trees {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static JSONArray getAllTrees () {
+    public static JSONArray getAllTrees (Context context,FragmentManager fragmentManager) {
 
         JSONArray treesArray = null;
 
-        String response = Requester.request("/api/get.php",new HashMap<String, String>(),null);
+        String response = Requester.request("/api/get.php",new HashMap<String, String>(),null,context,fragmentManager);
         try {
             JSONObject responseJSON = new JSONObject(response);
             JSONArray featuresArray = responseJSON.getJSONArray("features");
@@ -39,7 +39,7 @@ public class Trees {
 
     @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static void sendNewTreeToServer () {
+    public static void sendNewTreeToServer (Context context, FragmentManager fragmentManager) {
 
         Map<String,String> headersToSend = new HashMap<>();
         //headersToSend.put("img",Tree.encodedImage);
@@ -47,7 +47,7 @@ public class Trees {
         String bodyToSend = "passcode=1234&feature=";
         bodyToSend+=Tree.features;
 
-        Requester.request("/api/add.php",headersToSend,bodyToSend);
+        Requester.request("/api/add.php",headersToSend,bodyToSend,context,fragmentManager);
 
     }
 

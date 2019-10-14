@@ -152,7 +152,7 @@ public class AddTreeActivity  extends AppCompatActivity {
                         //dodati ako su polja prazna da nejde na slanje!
 
                         try {
-                            Trees.sendNewTreeToServer();
+                            Trees.sendNewTreeToServer(context,fragmentManager);
                         } catch (Exception e) {
                             Effects.showServerErrorDialog(context,fragmentManager);
                         }
