@@ -67,15 +67,17 @@ public class Trees {
         reqEntity.addPart("passcode",new StringBody("1234"));
         reqEntity.addPart("feature",new StringBody(Tree.features));
         try{
-            /*
+
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            (Tree.imageBitmap).compress(Bitmap.CompressFormat.JPEG, 20, baos);
+            (Tree.imageBitmap).compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] data = baos.toByteArray();
             ByteArrayBody biteArrayBody = new ByteArrayBody(data, "tree.jpg");
-            */
+            reqEntity.addPart("img", biteArrayBody);
 
-            postRequest.setHeader("img",Tree.encodedImage);
-            //reqEntity.addPart("img", new StringBody(Tree.encodedImage));
+            /*
+            //postRequest.setHeader("img",Tree.encodedImage);
+            reqEntity.addPart("img", new StringBody(Tree.encodedImage));
+            */
         }
         catch(Exception e) {
             Log.v("Exception in Image", ""+e);
