@@ -2,15 +2,36 @@ package com.leticija.treeapp;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
+
 import com.leticija.treeapp.net.Requester;
 import com.leticija.treeapp.tree.Tree;
+
+import org.apache.http.FormattedHeader;
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.FormBodyPart;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -38,8 +59,44 @@ public class Trees {
 
     @TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static void sendNewTreeToServer (Context context, FragmentManager fragmentManager) {
+    public static void sendNewTreeToServer (Context context, FragmentManager fragmentManager) throws IOException {
 
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost postRequest = new HttpPost("https://posadistablo.000webhostapp.com/api/add.php");
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+        reqEntity.addPart("passcode",new StringBody("1234"));
+        reqEntity.addPart("feature",new StringBody(Tree.features));
+        try{
+            /*
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            (Tree.imageBitmap).compress(Bitmap.CompressFormat.JPEG, 20, baos);
+            byte[] data = baos.toByteArray();
+            ByteArrayBody biteArrayBody = new ByteArrayBody(data, "tree.jpg");
+            */
+
+            postRequest.setHeader("img",Tree.encodedImage);
+            //reqEntity.addPart("img", new StringBody(Tree.encodedImage));
+        }
+        catch(Exception e) {
+            Log.v("Exception in Image", ""+e);
+            reqEntity.addPart("img", new StringBody(""));
+            //Effects.showServerErrorDialog(context,fragmentManager);
+        }
+        try {
+            postRequest.setEntity(reqEntity);
+            HttpResponse response = httpClient.execute(postRequest);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+            String sResponse;
+            StringBuilder s = new StringBuilder();
+            while ((sResponse = reader.readLine()) != null) {
+                s = s.append(sResponse);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        /*
         Map<String,String> headersToSend = new HashMap<>();
         //headersToSend.put("img",Tree.encodedImage);
 
@@ -47,6 +104,7 @@ public class Trees {
         bodyToSend+=Tree.features;
 
         Requester.request("/api/add.php",headersToSend,bodyToSend,context,fragmentManager);
+        */
 
     }
 

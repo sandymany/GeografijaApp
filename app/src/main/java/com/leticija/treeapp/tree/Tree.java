@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 
+// VERY GOOD, DATA TRANSFER OBJECT KOJI SE MORE SERIALIZIRAT!
 public class Tree {
 
     public static Bitmap imageBitmap;
@@ -19,6 +20,8 @@ public class Tree {
     public static String encodedImage = ""; //encoded bitmap
     public static String featuresUnencoded = "";
 
+    //OVO JE LOŠE
+    //NAPRAVI GETTERE I SETTERE ZA SVAKO POLJE, A NE SVE ODJEDNOM!
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void setFeatures (String vrsta, String datum, String posadio, JSONArray coordinates) throws JSONException {
 

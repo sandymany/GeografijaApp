@@ -155,6 +155,7 @@ public class AddTreeActivity  extends AppCompatActivity {
                             Trees.sendNewTreeToServer(context,fragmentManager);
                         } catch (Exception e) {
                             Effects.showServerErrorDialog(context,fragmentManager);
+                            e.printStackTrace();
                         }
                         System.out.println("SENDING DATA TO SERVER !!!");
                     }
@@ -169,10 +170,15 @@ public class AddTreeActivity  extends AppCompatActivity {
             }
         });
 
+        //ZANIMLJIVO, ISTRAŽIVALA SI
         placePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // zanimljiva linija............................................................... gle do kud ide............
                 WifiManager wifiManager = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                //wtf, ovo nemre bit dobro... zakaj gasiš pa pališ wifi???
+                // to ti troši bezveze bateriju jer moraš ponovno discoverat network a to traje bezveze...
+                // možda moreš samo zakomentirat to
                 wifiManager.setWifiEnabled(false);
 
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
@@ -194,6 +200,8 @@ public class AddTreeActivity  extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode==PLACE_PICKER_REQUEST) {
             if (resultCode==RESULT_OK) {
+                // potraži kak se složi da ti zumira na trenutnu mapu gdi si ti jer nema smisla
+                // da mu prikažeš aziju i australiju pa da zumira korisnik pol sata do svoje lokacije...
                 Place place = PlacePicker.getPlace(data,this);
                 StringBuilder stringBuilder = new StringBuilder();
                 String latitude = String.valueOf(place.getLatLng().latitude);
