@@ -71,7 +71,7 @@ public class Trees {
         try{
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            (Tree.imageBitmap).compress(Bitmap.CompressFormat.JPEG, 25, baos);
+            (Tree.imageBitmap).compress(Bitmap.CompressFormat.JPEG, 50, baos);
             byte[] data = baos.toByteArray();
             ByteArrayBody biteArrayBody = new ByteArrayBody(data, "tree.jpg");
             reqEntity.addPart("img", biteArrayBody);
