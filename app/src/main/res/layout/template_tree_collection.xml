@@ -1,28 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/template_expandView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="top">
 
-    <TextView
-        android:id="@+id/collection_subtitle"
-        android:textColor="@color/black"
-        android:layout_width="wrap_content"
+<android.support.v7.widget.CardView
+    android:id="@+id/cardview_template"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/krem"
+    android:backgroundTint="@color/krem"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="4dp"
+    android:layout_marginBottom="5dp"
+    android:orientation="horizontal"
+    app:layout_goneMarginBottom="25dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/template_expandView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="5dp"
-        android:text="sometext"
-        android:textSize="18dp"/>
+        android:orientation="horizontal"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:id="@+id/collection_subtitle"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="sometext"
+            android:textSize="18dp"
+            android:layout_gravity="start"
+            android:gravity="start"/>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/trash" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/layout_contentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/collection_subtitle"
-        android:layout_marginLeft="12dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/content_text"
@@ -32,12 +68,4 @@
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/divider_contents"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="4dp"
-        android:layout_below="@id/layout_contentText"
-        android:background="@color/black"/>
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

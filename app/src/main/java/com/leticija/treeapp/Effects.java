@@ -3,8 +3,10 @@ package com.leticija.treeapp;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -16,10 +18,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.leticija.treeapp.DialogCreator;
+import com.leticija.treeapp.net.Requester;
+import com.leticija.treeapp.net.TaskQueue;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class Effects {
 
@@ -156,16 +162,54 @@ public class Effects {
 
     }
 
-    public static void loadAllTreesToScrollview(final JSONObject objectFromRequest, LinearLayout scrollLayout,Context context) throws JSONException {
+    public static void showDeleteTreeDialog (final Context context, final FragmentManager fragmentManager, final String treeID) {
+
+        int color = context.getResources().getColor(R.color.red);
+
+        Runnable  none = new Runnable() {
+            @Override
+            public void run() {
+                return;
+            }
+        };
+
+        Runnable yesRunnable = new Runnable() {
+            @Override
+            public void run() {
+                final String passcode = context.getResources().getString(R.string.passcode);
+                TaskQueue.prepare().backgroundTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Requester.request("/api/delete.php", new HashMap<String, String>(), "passcode=" + passcode + "&id=" + treeID, context, fragmentManager);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).subscribeMe();
+            }
+        };
+
+        DialogCreator dialogCreator = new DialogCreator(color,"!","Jeste li sigurni da želite\nobrisati stablo?","DA","NE",none,yesRunnable);
+        dialogCreator.show(fragmentManager,"prazna polja upozorenje");
+
+    }
+
+    public static void loadAllTreesToScrollview(final JSONObject objectFromRequest, LinearLayout scrollLayout, final Context context, final FragmentManager fragmentManager,TextView ukupnoStabala) throws JSONException {
 
         JSONArray arrayOfTreesData = (JSONArray) objectFromRequest.get("features");
 
-        for (int i = 0; i<arrayOfTreesData.length(); i++) {
+        ukupnoStabala.setText("Ukupno stabala: "+String.valueOf(arrayOfTreesData.length()));
 
-            JSONObject treeObject = (JSONObject) arrayOfTreesData.get(i);
+        for (int i = arrayOfTreesData.length()-1; i>-1; i--) {
+
+            System.out.println(String.valueOf(i));
+
+            final JSONObject treeObject = (JSONObject) arrayOfTreesData.get(i);
             String contentTextString="";
 
             System.out.println(treeObject.toString());
+            String treeID = null;
 
             try {
 
@@ -177,6 +221,7 @@ public class Effects {
                     contentTextString += "\nPosadio: " + posadio;
                     String datum = (String) treeProperties.get("datum");
                     contentTextString += "\nDatum: " + datum;
+                    treeID = (String) treeProperties.get("id").toString();
 
                 }
                 if (treeObject.has("geometry")) {
@@ -186,15 +231,45 @@ public class Effects {
                 }
 
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-                LinearLayout templateLayout = (LinearLayout) inflater.inflate(R.layout.template_tree_collection, null);
-
+                final CardView templateLayout = (CardView) inflater.inflate(R.layout.template_tree_collection, null);
 
                 TextView subtitle = templateLayout.findViewById(R.id.collection_subtitle);
-                subtitle.setText("STABLO " + String.valueOf(i + 1) + ".");
+                subtitle.setText("STABLO " + String.valueOf(arrayOfTreesData.length()-i) + ".");
                 TextView contentText = templateLayout.findViewById(R.id.content_text);
                 contentText.setText(contentTextString);
 
-                scrollLayout.addView(templateLayout);
+                final CardView cardView = new CardView(context);
+                cardView.setRadius(10);
+                cardView.setCardBackgroundColor(context.getResources().getColor(R.color.partiallyTransparentBrown));
+                cardView.setVisibility(View.INVISIBLE);
+                Effects.fadeIn(cardView,200);
+                cardView.addView(templateLayout);
+                scrollLayout.addView(cardView);
+
+                final String finalTreeID = treeID;
+                cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cardView.setCardBackgroundColor(context.getResources().getColor(R.color.success));
+                        showDeleteTreeDialog(context,fragmentManager, finalTreeID);
+                        TaskQueue.prepare().backgroundTask(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(200);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).guiTask(new Runnable() {
+                            @Override
+                            public void run() {
+                                cardView.setCardBackgroundColor(context.getResources().getColor(R.color.partiallyTransparentBrown));
+                            }
+                        }).subscribeMe();
+                    }
+                });
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

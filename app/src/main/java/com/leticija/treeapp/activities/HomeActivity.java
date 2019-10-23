@@ -37,13 +37,10 @@ public class HomeActivity extends AppCompatActivity {
         TaskQueue.prepare().backgroundTask(new Runnable() {
             @Override
             public void run() {
-                for (int i=3;i<11;i++) {
-                    String id = String.valueOf(i);
-                    Requester.request("/api/delete.php", new HashMap<String, String>(), "passcode=1234&id="+id,context,fragmentManager);
-                }
-
+                Requester.request("/api/delete.php", new HashMap<String, String>(), null,context,fragmentManager);
             }
         }).subscribeMe();
+
         addTreeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
