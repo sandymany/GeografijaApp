@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -47,6 +49,8 @@ public class AddTreeActivity  extends AppCompatActivity {
     Bitmap rotatedBitmap;
     ImageView loading;
     FragmentManager fragmentManager;
+    Button backButton;
+    Boolean isSuccessfullySent = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,7 @@ public class AddTreeActivity  extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         //FIND WHAT YOU NEED
+        backButton = findViewById(R.id.backButton);
         loading = findViewById(R.id.imageView_loading);
         imageView = findViewById(R.id.image_add_tree);
         umetniSlikuButton = findViewById(R.id.umetniSliku_button);
@@ -67,6 +72,13 @@ public class AddTreeActivity  extends AppCompatActivity {
 
         Tree.imageBitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
         koordinate = new JSONArray();
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         umetniSlikuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,34 +149,45 @@ public class AddTreeActivity  extends AppCompatActivity {
                         EditText vrstaEdit = findViewById(R.id.vrstaStabla_editText);
                         vrsta = vrstaEdit.getText().toString();
 
-                        try {
                             //SETTANJE FEATURA I ENCODANE SLIKE
+                        try {
                             Tree.setFeatures(vrsta,datum,posadio,koordinate);
-                            Tree.setEncodedImage(Tree.imageBitmap);
-
-                            Trees.checkAllFields(fragmentManager,context);
-
                         } catch (JSONException e) {
-                            System.out.println("EXCEPTION IN SETTING FEATURES !");
                             e.printStackTrace();
                         }
-
-                        //dodati ako su polja prazna da nejde na slanje!
+                        Tree.setEncodedImage(Tree.imageBitmap);
 
                         try {
-                            Trees.sendNewTreeToServer(context,fragmentManager);
-                        } catch (Exception e) {
-                            Effects.showServerErrorDialog(context,fragmentManager);
+                            if (Trees.checkAllFields(fragmentManager,context)) {
+                                System.out.println("ALL FIELDS ARE FILLED !!!");
+
+                                try {
+                                    Trees.sendNewTreeToServer(context,fragmentManager);
+                                    isSuccessfullySent = true;
+                                } catch (Exception e) {
+                                    Effects.showServerErrorDialog(context,fragmentManager);
+                                    isSuccessfullySent = false;
+                                    e.printStackTrace();
+                                }
+                                System.out.println("SENDING DATA TO SERVER !!!");
+                            }
+                            else {
+                                isSuccessfullySent = false;
+                            }
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        System.out.println("SENDING DATA TO SERVER !!!");
+
+
                     }
                 }).guiTask(new Runnable() {
                     @Override
                     public void run() {
                         loading.clearAnimation();
                         loading.setVisibility(View.INVISIBLE);
-                        Effects.succesfullySentDialog(context,fragmentManager);
+                        if(isSuccessfullySent) {
+                            Toast.makeText(context, "Successfully sent to server!", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }).subscribeMe();
             }
@@ -174,11 +197,7 @@ public class AddTreeActivity  extends AppCompatActivity {
         placePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // zanimljiva linija............................................................... gle do kud ide............
                 WifiManager wifiManager = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                //wtf, ovo nemre bit dobro... zakaj gasiš pa pališ wifi???
-                // to ti troši bezveze bateriju jer moraš ponovno discoverat network a to traje bezveze...
-                // možda moreš samo zakomentirat to
                 wifiManager.setWifiEnabled(false);
 
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();

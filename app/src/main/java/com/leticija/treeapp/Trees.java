@@ -38,6 +38,8 @@ import java.util.Map;
 
 public class Trees {
 
+    public static String passcode = null;
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static JSONArray getAllTrees (Context context,FragmentManager fragmentManager) {
 
@@ -69,20 +71,15 @@ public class Trees {
         try{
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            (Tree.imageBitmap).compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            (Tree.imageBitmap).compress(Bitmap.CompressFormat.JPEG, 25, baos);
             byte[] data = baos.toByteArray();
             ByteArrayBody biteArrayBody = new ByteArrayBody(data, "tree.jpg");
             reqEntity.addPart("img", biteArrayBody);
 
-            /*
-            //postRequest.setHeader("img",Tree.encodedImage);
-            reqEntity.addPart("img", new StringBody(Tree.encodedImage));
-            */
         }
         catch(Exception e) {
             Log.v("Exception in Image", ""+e);
             reqEntity.addPart("img", new StringBody(""));
-            //Effects.showServerErrorDialog(context,fragmentManager);
         }
         try {
             postRequest.setEntity(reqEntity);
@@ -95,18 +92,8 @@ public class Trees {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Effects.showServerErrorDialog(context,fragmentManager);
         }
-
-
-        /*
-        Map<String,String> headersToSend = new HashMap<>();
-        //headersToSend.put("img",Tree.encodedImage);
-
-        String bodyToSend = "passcode=1234&feature=";
-        bodyToSend+=Tree.features;
-
-        Requester.request("/api/add.php",headersToSend,bodyToSend,context,fragmentManager);
-        */
 
     }
 
@@ -140,24 +127,3 @@ public class Trees {
 
 
 }
-// HEADER: parametri: features, passcode
-// features:{"type":"Feature","properties":{"vrsta":x,"datum":x,"posadio":x,"image_url":""},"geometry":{"type":"Point","coordinates":[x,y]}}
-//image url: https://cdn.shopify.com/s/files/1/0014/4038/3023/files/japense-maple-specialist_2048x.jpg?v=1544794246
-
-/* parsanje podatki iz gettanog JSON-a
-                try {
-                    JSONObject responseJSON = new JSONObject(response);
-                    JSONArray featuresArray = responseJSON.getJSONArray("features");
-
-                    for (int i = 0; i < featuresArray.length(); i++) {
-                        System.out.println(featuresArray.get(i));
-                        JSONObject object = (JSONObject) featuresArray.get(i);
-                        JSONObject geometry = (JSONObject) object.get("geometry");
-                        JSONArray coordinatesArray = geometry.getJSONArray("coordinates");
-                        System.out.println("coordinates: "+coordinatesArray+"FIRST COORDINATE: "+coordinatesArray.get(0)+" SECOND COORDINATE: "+coordinatesArray.get(1));
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                */

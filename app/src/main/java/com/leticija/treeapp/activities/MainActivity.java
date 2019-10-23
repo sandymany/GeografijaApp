@@ -16,7 +16,11 @@ import android.widget.TextView;
 
 import com.leticija.treeapp.Effects;
 import com.leticija.treeapp.R;
+import com.leticija.treeapp.Trees;
 import com.leticija.treeapp.net.Requester;
+import com.leticija.treeapp.net.TaskQueue;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,6 +65,44 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("ResourceAsColor")
     private void goToNewActivity () {
+
+        try {
+            TaskQueue.prepare().backgroundTask(new Runnable() {
+                @Override
+                public void run() {
+
+                    String enteredPasscode = passcodeField.getText().toString();
+                    String isPasscodeValid = Requester.request("/api/provjeri_pass.php", new HashMap<String, String>(), "passcode=" + enteredPasscode, context, getSupportFragmentManager());
+
+                    if (isPasscodeValid.equals("true")) {
+                        TaskQueue.prepare().guiTask(new Runnable() {
+                            @Override
+                            public void run() {
+                                Effects.alterTextView(message, true,"LOZINKA ISPRAVNA",R.color.success);
+                            }
+                        }).subscribeMe();
+                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                        Trees.passcode = enteredPasscode;
+                        startActivity(intent);
+                    }
+                    else {
+                        TaskQueue.prepare().guiTask(new Runnable() {
+                            @Override
+                            public void run() {
+                                Effects.alterTextView(message,true,"POGREŠNA LOZINKA",R.color.red);
+                                Effects.fadeIn(message, 500);
+                            }
+                        }).subscribeMe();
+                    }
+                }
+            }).subscribeMe();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /*
+
         if (passcodeField.getText().toString().equals(getString(R.string.passcode))) {
             Effects.alterTextView(message, true,"LOZINKA ISPRAVNA",R.color.success);
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
@@ -70,5 +112,6 @@ public class MainActivity extends AppCompatActivity {
             message.setText("POGREŠNA LOZINKA");
             Effects.fadeIn(message,500);
         }
+        */
     }
 }

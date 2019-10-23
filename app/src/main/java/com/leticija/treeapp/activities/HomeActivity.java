@@ -34,12 +34,14 @@ public class HomeActivity extends AppCompatActivity {
         Button addTreeButton = findViewById(R.id.button_newTree);
         Button viewCollectionButton = findViewById(R.id.button_viewCollection);
 
+        /*
         TaskQueue.prepare().backgroundTask(new Runnable() {
             @Override
             public void run() {
                 Requester.request("/api/delete.php", new HashMap<String, String>(), null,context,fragmentManager);
             }
         }).subscribeMe();
+        */
 
         addTreeButton.setOnClickListener(new View.OnClickListener() {
             @Override

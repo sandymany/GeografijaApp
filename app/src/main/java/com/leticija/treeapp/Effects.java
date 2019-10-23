@@ -176,7 +176,7 @@ public class Effects {
         Runnable yesRunnable = new Runnable() {
             @Override
             public void run() {
-                final String passcode = context.getResources().getString(R.string.passcode);
+                final String passcode = Trees.passcode;
                 TaskQueue.prepare().backgroundTask(new Runnable() {
                     @Override
                     public void run() {
