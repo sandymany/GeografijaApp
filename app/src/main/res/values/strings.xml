@@ -1,7 +1,6 @@
 <resources>
     <string name="textView_provjera">Provjera lozinke</string>
-    <!-- uuuu, cool endpointić-->
-    <string name="base_address">https://posadistablo.000webhostapp.com</string>
+    <string name="base_address">gimnazijskodrvo000webhostapp.com</string>
     <string name="app_title">Posadi stablo</string>
     <string name="ok_button_text">OK</string>
 </resources>
